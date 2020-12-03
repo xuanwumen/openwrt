@@ -1,0 +1,226 @@
+name: dabao
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Number of days.'
+        required: true
+        default: 60
+      minimum_runs:
+        description: 'The minimum runs to keep for each workflow.'
+        required: true
+        default: 6
+  schedule:
+    - cron: 0 22 * * *
+      
+env:
+  UPLOAD_COWTRANSFER: false
+  RELEASE: true
+  TZ: Asia/Shanghai
+  FILE_NAME: ARMv8-已打包固件
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    name: Build for ${{ matrix.flippy_name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - flippy_name: 49
+       # 注：1x为+版，2x为+o版
+            flippy_filename11: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
+            release_name11: Beikeyun_49+_Openwrt.img
+            flippy_filename12: Armbian_20.10_Aml-s9xxx_buster_5.9.8-flippy-49+.img.xz
+            release_name12: S905x3_49+_Openwrt.img
+            release_name13: N1_49+_Openwrt.img
+
+            flippy_filename21: Armbian_20.10_Beikeyun_buster_5.4.77-flippy-49+o.img.xz
+            release_name21: Beikeyun_49+o_Openwrt.img
+            flippy_filename22: Armbian_20.10_Aml-s9xxx_buster_5.4.77-flippy-49+o.img.xz
+            release_name22: S905x3_49+o_Openwrt.img
+            release_name23: N1_49+o_Openwrt.img
+    env:
+      FLIPPY_NAME: ${{ matrix.flippy_name }}
+
+      flippy_filename11: ${{ matrix.flippy_filename11 }}   
+      flippy_filename12: ${{ matrix.flippy_filename12 }} 
+      release_name11: ${{ matrix.release_name11 }}
+      release_name12: ${{ matrix.release_name12 }}
+      release_name13: ${{ matrix.release_name13 }}
+
+      flippy_filename21: ${{ matrix.flippy_filename21 }}   
+      flippy_filename22: ${{ matrix.flippy_filename22 }} 
+      release_name21: ${{ matrix.release_name21 }}
+      release_name22: ${{ matrix.release_name22 }}
+      release_name23: ${{ matrix.release_name23 }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+      
+    - name: Initialization environment
+      run: |     
+        if [[ $FLIPPY_NAME = "49" ]]; 
+        then
+          echo "set the flippy 49"
+          echo "FLIPPY_FILEID11=${{ secrets.beikuyun_sfe_FILEID }}"  >> $GITHUB_ENV
+          echo "FLIPPY_FILEID12=${{ secrets.s9xxx_sfe_FILEID }}"  >> $GITHUB_ENV
+          
+          echo "FLIPPY_FILEID21=${{ secrets.beikuyun_o_FILEID }}"  >> $GITHUB_ENV
+          echo "FLIPPY_FILEID22=${{ secrets.s9xxx_o_FILEID }}"  >> $GITHUB_ENV
+        fi
+        version11=$(curl -s "https://api.github.com/repos/zhongqiujie13/openwrt-yunbianyi/releases/latest" | awk -F '"' '/tag_name/{print $4}')
+        echo "version11=$version11"  >> $GITHUB_ENV
+        
+        version21=$(curl -s "https://api.github.com/repos/zhongqiujie13/bianyiopenwrt/releases/latest" | awk -F '"' '/tag_name/{print $4}')
+        echo "version21=$version21"  >> $GITHUB_ENV
+        
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install time
+        sudo timedatectl set-timezone "$TZ"
+        echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")"  >> $GITHUB_ENV
+        
+        sudo chmod  -R 777 /opt
+        cp -r ${FLIPPY_NAME}/opt/* /opt
+        
+        test -d /opt/dl || mkdir -p /opt/dl
+        sudo chmod  -R 777 /opt/dl
+        
+        cd /opt
+        mkdir imgs
+        
+    - uses: actions/cache@v2
+      id: opwenwrtcache
+      with:
+        path: |
+          /opt/dl
+        key: ${{ runner.os }}-opwenwrt-${{ env.FLIPPY_NAME }}-${{ env.version11 }}-${{ env.version21 }}
+
+    - name: Download and Copy files
+      #if: steps.opwenwrtcache.outputs.cache-hit != 'true'
+      run: |
+        cd /opt/dl
+        
+        wget  https://github.com/zhongqiujie13/openwrt-yunbianyi/releases/download/$version11/openwrt-armvirt-64-default-rootfs.tar.gz
+        cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
+        
+        wget  https://github.com/zhongqiujie13/bianyiopenwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
+        cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
+        
+        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+        curl -L -b cookies.txt -o $flippy_filename11  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11'&confirm='$(<confirm.txt)
+        
+        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt        
+        curl -L -b cookies.txt -o $flippy_filename12  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12'&confirm='$(<confirm.txt)
+        
+        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID21  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt        
+        curl -L -b cookies.txt -o $flippy_filename21  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID21'&confirm='$(<confirm.txt)
+        
+        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+        curl -L -b cookies.txt -o $flippy_filename22  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22'&confirm='$(<confirm.txt)
+        
+        cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
+        cp /opt/dl/$flippy_filename12 /opt/imgs/$flippy_filename12
+        cp /opt/dl/$flippy_filename21 /opt/imgs/$flippy_filename21
+        cp /opt/dl/$flippy_filename22 /opt/imgs/$flippy_filename22
+
+        
+  #  - name: Check Files
+  #    run: |
+  #      cd /opt/dl
+  #      ls
+                
+    - name: Install the package
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install xz-utils btrfs-progs gawk zip unzip curl dosfstools  uuid-runtime
+        sudo -E apt-get -qq install git  git-core
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+
+  #  - name: Copy files
+  #    run: |
+  #      cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
+  #      cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
+  #      cp /opt/dl/$flippy_filename12 /opt/imgs/$flippy_filename12
+              
+    - name: build img
+      run: |
+        sudo rm -rf /opt/openwrt/tmp/${release_name11}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${release_name12}.xz
+        sudo rm -rf /opt/openwrt/tmp/${release_name13}.xz
+        
+        sudo rm -rf /opt/openwrt/tmp/${release_name21}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${release_name22}.xz
+        sudo rm -rf /opt/openwrt/tmp/${release_name23}.xz
+        
+        cd /opt/imgs
+        sudo xz -d $flippy_filename11
+        sudo xz -d $flippy_filename12
+        sudo xz -d $flippy_filename21
+        sudo xz -d $flippy_filename22
+        
+        sudo chmod  -R 777 /opt
+        cd /opt/openwrt
+        
+        chmod +x *.sh
+        
+        sudo bash mk_beikeyun_opimg_sfe.sh
+        sudo bash mk_s905x3_opimg_sfe.sh
+        sudo bash mk_n1_opimg_sfe.sh
+        sudo bash mk_beikeyun_opimg.sh
+        sudo bash mk_s905x3_opimg.sh
+        sudo bash mk_n1_opimg.sh
+
+    - name: xz-z
+      id: xz
+      run: |
+        sudo chmod  -R 777 /opt/openwrt/tmp
+        cd /opt/openwrt/tmp 
+        sudo xz -z $release_name11
+        sudo xz -z $release_name12
+        sudo xz -z $release_name13
+        
+        sudo xz -z $release_name21
+        sudo xz -z $release_name22
+        sudo xz -z $release_name23
+        
+        echo "::set-output name=status::success"
+
+    - name: Create release
+      if: steps.xz.outputs.status == 'success'  &&  env.RELEASE == 'true' && !cancelled()
+      uses: ncipollo/release-action@v1
+      with:
+        name: ${{ env.DATE }} / Openwrt-49+和49+o
+        allowUpdates: true
+        tag: ${{ env.FILE_NAME }}
+        commit: main
+        token: ${{ secrets.RELEASES_TOKEN   }}
+        body: |
+          Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
+        artifacts: "/opt/openwrt/tmp/*.xz"
+        
+    - name: Upload firmware to WeTransfer
+      if: steps.xz.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
+      run: |
+        curl -fsSL git.io/file-transfer | sh
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name11.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name12.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name13.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name21.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name22.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name23.xz 2>&1 | tee cowtransfer.log
+        echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
+        echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
+
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      with:
+        keep_latest: 6
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}  
+
