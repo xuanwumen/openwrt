@@ -97,10 +97,6 @@ jobs:
         path: |
           /opt/dl
         key: ${{ runner.os }}-opwenwrt-${{ env.FLIPPY_NAME }}-${{ env.version11 }}-${{ env.version21 }}
-
-    - name: 打包前硬盘容量
-      if: (!cancelled())
-      run: df -hT
       
     - name: Download and Copy files
       #if: steps.opwenwrtcache.outputs.cache-hit != 'true'
@@ -194,10 +190,10 @@ jobs:
         
         echo "::set-output name=status::success"
 
-    - name: 打包后硬盘容量
+    - name: Check space usage
       if: (!cancelled())
       run: df -hT
-      
+
     - name: Create release
       if: steps.xz.outputs.status == 'success'  &&  env.RELEASE == 'true' && !cancelled()
       uses: ncipollo/release-action@v1
