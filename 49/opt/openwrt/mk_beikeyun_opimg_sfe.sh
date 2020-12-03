@@ -20,7 +20,7 @@ OPWRT_ROOTFS_GZ="${PWD}/sfe-openwrt-armvirt-64-default-rootfs.tar.gz"
 ###################################################################
 
 # Target Image
-TGT_IMG="${WORK_DIR}/Beikeyun_49+_Openwrt.img"
+TGT_IMG="${WORK_DIR}/Beikeyun_Openwrt_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
 
 # patches、scripts
 ####################################################################

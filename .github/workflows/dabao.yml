@@ -32,16 +32,16 @@ jobs:
           - flippy_name: 49
        # 注：1x为+版，2x为+o版
             flippy_filename11: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
-            release_name11: Beikeyun_49+_Openwrt.img
+            release_name11: Beikeyun_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
             flippy_filename12: Armbian_20.10_Aml-s9xxx_buster_5.9.8-flippy-49+.img.xz
-            release_name12: S905x3_49+_Openwrt.img
-            release_name13: N1_49+_Openwrt.img
+            release_name12: S905x3_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
+            release_name13: N1_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
 
             flippy_filename21: Armbian_20.10_Beikeyun_buster_5.4.77-flippy-49+o.img.xz
-            release_name21: Beikeyun_49+o_Openwrt.img
+            release_name21: Beikeyun_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
             flippy_filename22: Armbian_20.10_Aml-s9xxx_buster_5.4.77-flippy-49+o.img.xz
-            release_name22: S905x3_49+o_Openwrt.img
-            release_name23: N1_49+o_Openwrt.img
+            release_name22: S905x3_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
+            release_name23: N1_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
     env:
       FLIPPY_NAME: ${{ matrix.flippy_name }}
 
@@ -71,10 +71,10 @@ jobs:
           echo "FLIPPY_FILEID21=${{ secrets.beikuyun_o_FILEID }}"  >> $GITHUB_ENV
           echo "FLIPPY_FILEID22=${{ secrets.s9xxx_o_FILEID }}"  >> $GITHUB_ENV
         fi
-        version11=$(curl -s "https://api.github.com/repos/zhongqiujie13/openwrt-yunbianyi/releases/latest" | awk -F '"' '/tag_name/{print $4}')
+        version11=$(curl -s "https://api.github.com/repos/hibuddies/openwrt/releases/34735968" | awk -F '"' '/tag_name/{print $4}')
         echo "version11=$version11"  >> $GITHUB_ENV
         
-        version21=$(curl -s "https://api.github.com/repos/zhongqiujie13/bianyiopenwrt/releases/latest" | awk -F '"' '/tag_name/{print $4}')
+        version21=$(curl -s "https://api.github.com/repos/hibuddies/openwrt/releases/34735979" | awk -F '"' '/tag_name/{print $4}')
         echo "version21=$version21"  >> $GITHUB_ENV
         
         sudo -E apt-get -qq update
@@ -98,15 +98,19 @@ jobs:
           /opt/dl
         key: ${{ runner.os }}-opwenwrt-${{ env.FLIPPY_NAME }}-${{ env.version11 }}-${{ env.version21 }}
 
+    - name: 打包前硬盘容量
+      if: (!cancelled())
+      run: df -hT
+      
     - name: Download and Copy files
       #if: steps.opwenwrtcache.outputs.cache-hit != 'true'
       run: |
         cd /opt/dl
         
-        wget  https://github.com/zhongqiujie13/openwrt-yunbianyi/releases/download/$version11/openwrt-armvirt-64-default-rootfs.tar.gz
+        wget  https://github.com/hibuddies/openwrt/releases/download/$version11/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
         
-        wget  https://github.com/zhongqiujie13/bianyiopenwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
+        wget  https://github.com/hihuddies/openwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
         
         curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
@@ -190,6 +194,10 @@ jobs:
         
         echo "::set-output name=status::success"
 
+    - name: 打包后硬盘容量
+      if: (!cancelled())
+      run: df -hT
+      
     - name: Create release
       if: steps.xz.outputs.status == 'success'  &&  env.RELEASE == 'true' && !cancelled()
       uses: ncipollo/release-action@v1

@@ -21,7 +21,7 @@ OPWRT_ROOTFS_GZ="${PWD}/openwrt-armvirt-64-default-rootfs.tar.gz"
 ###########################################################################
 
 # 目标镜像文件
-TGT_IMG="${WORK_DIR}/S905x3_49+o_Openwrt.img"
+TGT_IMG="${WORK_DIR}/S905x3_Openwrt_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
 
 # 补丁和脚本
 ###########################################################################

@@ -21,7 +21,7 @@ OPWRT_ROOTFS_GZ="${PWD}/sfe-openwrt-armvirt-64-default-rootfs.tar.gz"
 ###########################################################################
 
 # 目标镜像文件
-TGT_IMG="${WORK_DIR}/N1_49+_Openwrt.img"
+TGT_IMG="${WORK_DIR}/N1_Openwrt_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
 
 # 可选参数：是否替换n1的dtb文件 y:替换 n:不替换
 REPLACE_DTB="n"
