@@ -65,10 +65,10 @@ jobs:
         if [[ $FLIPPY_NAME = "49" ]]; 
         then
           echo "set the flippy 49"
-          echo "FLIPPY_FILEID11=${{ secrets.beikuyun_sfe_FILEID }}"  >> $GITHUB_ENV
+          echo "FLIPPY_FILEID11=${{ secrets.beikeyun_sfe_FILEID }}"  >> $GITHUB_ENV
           echo "FLIPPY_FILEID12=${{ secrets.s9xxx_sfe_FILEID }}"  >> $GITHUB_ENV
           
-          echo "FLIPPY_FILEID21=${{ secrets.beikuyun_o_FILEID }}"  >> $GITHUB_ENV
+          echo "FLIPPY_FILEID21=${{ secrets.beikeyun_o_FILEID }}"  >> $GITHUB_ENV
           echo "FLIPPY_FILEID22=${{ secrets.s9xxx_o_FILEID }}"  >> $GITHUB_ENV
         fi
         version11=$(curl -s "https://api.github.com/repos/hibuddies/openwrt/releases/34735968" | awk -F '"' '/tag_name/{print $4}')
