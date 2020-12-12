@@ -1,4 +1,4 @@
-name: dabao
+name: dabao-50
 
 on:
   repository_dispatch:
