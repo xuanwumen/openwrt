@@ -8,7 +8,7 @@ fi
 # Image sources
 ###################################################################
 
-OPENWRT_VER="R20.10.20"
+OPENWRT_VER="R20.12.12"
 KERNEL_VERSION="5.4.77-flippy-49+o"
 SUBVER=$1
 LNX_IMG="/opt/imgs/Armbian_20.10_Beikeyun_buster_${KERNEL_VERSION}.img"
