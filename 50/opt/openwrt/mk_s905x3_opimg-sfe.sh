@@ -8,13 +8,13 @@ fi
 # 源镜像文件
 ##########################################################################
 OPENWRT_VER="R20.12.12"
-KERNEL_VERSION="5.4.83-flippy-50+o"
-#KERNEL_VERSION="5.9.14-flippy-50+"
+#KERNEL_VERSION="5.4.83-flippy-50+o"
+KERNEL_VERSION="5.9.14-flippy-50+"
 SUBVER=$1
 # Armbian
 LNX_IMG="/opt/imgs/Armbian_20.10_Aml-s9xxx_buster_${KERNEL_VERSION}.img"
 # Openwrt 
-OPWRT_ROOTFS_GZ="${PWD}/openwrt-armvirt-64-default-rootfs.tar.gz"
+OPWRT_ROOTFS_GZ="${PWD}/sfe-openwrt-armvirt-64-default-rootfs.tar.gz"
 
 # not used
 # BOOT_TGZ="/opt/kernel/boot-${KERNEL_VERSION}.tar.gz"
@@ -22,7 +22,7 @@ OPWRT_ROOTFS_GZ="${PWD}/openwrt-armvirt-64-default-rootfs.tar.gz"
 ###########################################################################
 
 # 目标镜像文件
-TGT_IMG="${WORK_DIR}/S922x_Openwrt_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
+TGT_IMG="${WORK_DIR}/S905x3_Openwrt_${OPENWRT_VER}_k${KERNEL_VERSION}${SUBVER}.img"
 
 # 补丁和脚本
 ###########################################################################
@@ -49,13 +49,14 @@ SYSCTL_CUSTOM_CONF="${PWD}/files/99-custom.conf"
 COREMARK="${PWD}/files/coremark.sh"
 
 # 20200930 add
-INST_SCRIPT="${PWD}/files/s922x/install-to-emmc.sh"
-UPDATE_SCRIPT="${PWD}/files/s922x/update-to-emmc.sh"
-SND_MOD="${PWD}/files/s922x/snd-meson-g12"
-DAEMON_JSON="${PWD}/files/s922x/daemon.json"
+INST_SCRIPT="${PWD}/files/s905x3/install-to-emmc.sh"
+UPDATE_SCRIPT="${PWD}/files/s905x3/update-to-emmc.sh"
+SND_MOD="${PWD}/files/s905x3/snd-meson-g12"
+BTLD_BIN="${PWD}/files/s905x3/hk1box-bootloader.img"
+DAEMON_JSON="${PWD}/files/s905x3/daemon.json"
 
 # 20201006 add
-FORCE_REBOOT="${PWD}/files/s922x/reboot"
+FORCE_REBOOT="${PWD}/files/s905x3/reboot"
 # 20201017 add
 BAL_ETH_IRQ="${PWD}/files/balethirq.pl"
 # 20201026 add
@@ -66,8 +67,7 @@ SYSFIXTIME_PATCH="${PWD}/files/sysfixtime.patch"
 SSL_CNF_PATCH="${PWD}/files/openssl_engine.patch"
 
 # 20201212 add
-BAL_CONFIG="${PWD}/files/s922x/balance_irq"
-CPUFREQ_INIT="${PWD}/files/s922x/cpufreq"
+BAL_CONFIG="${PWD}/files/s905x3/balance_irq"
 ###########################################################################
 
 # 检查环境
@@ -226,11 +226,26 @@ INITRD=/uInitrd
 
 # 下列 dtb，用到哪个就把哪个的#删除，其它的则加上 # 在行首
 
-# 用于 Belink GT-King
-FDT=/dtb/amlogic/meson-g12b-gtking.dtb
+# 用于 X96 Max+ (S905X3 网卡工作于 100m)
+FDT=/dtb/amlogic/meson-sm1-x96-max-plus-100m.dtb
 
-# 用于 Belink GT-King Pro
-FDT=/dtb/amlogic/meson-g12b-gtking-pro.dtb
+# 用于 X96 Max+ (S905X3 网卡工作于 1000M)
+#FDT=/dtb/amlogic/meson-sm1-x96-max-plus.dtb
+
+# 用于 X96 Max+ (S905X3 网卡工作于 1000M) (超频至2208Mhz)
+#FDT=/dtb/amlogic/meson-sm1-x96-max-plus-oc.dtb
+
+# 用于 HK1 BoX (S905X3 网卡工作于 1000M)
+#FDT=/dtb/amlogic/meson-sm1-hk1box-vontar-x3.dtb
+
+# 用于 HK1 BoX (S905X3 网卡工作于 1000M) (超频至2184Mhz)
+#FDT=/dtb/amlogic/meson-sm1-hk1box-vontar-x3-oc.dtb
+
+# 用于 H96 Max X3 (S905X3 网卡工作于 1000M)
+#FDT=/dtb/amlogic/meson-sm1-h96-max-x3.dtb
+
+# 用于 H96 Max X3 (S905X3 网卡工作于 1000M) (超频至2208Mhz)
+#FDT=/dtb/amlogic/meson-sm1-h96-max-x3-oc.dtb
 
 APPEND=root=UUID=${ROOTFS_UUID} rootfstype=btrfs rootflags=compress=zstd console=ttyAML0,115200n8 console=tty0 no_console_suspend consoleblank=0 fsck.fix=yes fsck.repair=yes net.ifnames=0 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1
 EOF
@@ -245,6 +260,17 @@ echo "修改根文件系统相关配置 ... "
 # modify root
 cd $TGT_ROOT
 
+if [ -f $BTLD_BIN ];then
+       mkdir -p lib/u-boot
+       cp $BTLD_BIN lib/u-boot/ 
+       echo "***"
+       echo "写入bootloader（可用于TF卡启动) ... "
+       dd if=$BTLD_BIN of=${BLK_DEV} bs=1 count=442 conv=fsync
+       dd if=$BTLD_BIN of=${BLK_DEV} bs=512 skip=1 seek=1 conv=fsync
+       echo "写入完成"
+       echo "***"
+       echo
+fi
 [ -f $INST_SCRIPT ] && cp $INST_SCRIPT root/
 # [ -f $UPDATE_SCRIPT ] && cp $UPDATE_SCRIPT root/
 [ -f $MAC_SCRIPT1 ] && cp $MAC_SCRIPT1 usr/bin/
@@ -276,7 +302,6 @@ if [ -f $BAL_ETH_IRQ ];then
     sed -e "/exit/i\/usr/sbin/balethirq.pl" -i etc/rc.local
     [ -f ${BAL_CONFIG} ] && cp -v ${BAL_CONFIG} etc/config/
 fi
-[ -f $CPUFREQ_INIT ] && cp -v $CPUFREQ_INIT etc/init.d/ && chmod 755 etc/init.d/cpufreq
 
 if [ -f $FIX_CPU_FREQ ];then
     cp -v $FIX_CPU_FREQ usr/sbin
