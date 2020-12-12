@@ -106,6 +106,8 @@ jobs:
         wget  https://github.com/hibuddies/openwrt/releases/download/$version11/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
         
+        sudo rm -rf /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz
+        
         wget  https://github.com/hibuddies/openwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
         
