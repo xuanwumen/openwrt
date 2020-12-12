@@ -32,16 +32,16 @@ jobs:
           - flippy_name: 49
        # 注：1x为+版，2x为+o版
             flippy_filename11: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
-            release_name11: Beikeyun_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
+            release_name11: Beikeyun_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
             flippy_filename12: Armbian_20.10_Aml-s9xxx_buster_5.9.8-flippy-49+.img.xz
-            release_name12: S905x3_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
-            release_name13: N1_Openwrt_R20.10.20_k5.9.8-flippy-49+.img
+            release_name12: S905x3_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
+            release_name13: N1_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
 
             flippy_filename21: Armbian_20.10_Beikeyun_buster_5.4.77-flippy-49+o.img.xz
-            release_name21: Beikeyun_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
+            release_name21: Beikeyun_Openwrt_R20.12.12_k5.4.77-flippy-49+o.img
             flippy_filename22: Armbian_20.10_Aml-s9xxx_buster_5.4.77-flippy-49+o.img.xz
-            release_name22: S905x3_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
-            release_name23: N1_Openwrt_R20.10.20_k5.4.77-flippy-49+o.img
+            release_name22: S905x3_Openwrt_R20.12.12_k5.4.77-flippy-49+o.img
+            release_name23: N1_Openwrt_R20.12.12_k5.4.77-flippy-49+o.img
     env:
       FLIPPY_NAME: ${{ matrix.flippy_name }}
 
@@ -204,6 +204,7 @@ jobs:
         commit: main
         token: ${{ secrets.RELEASES_TOKEN   }}
         body: |
+          默认IP：192.168.1.1 默认密码： password
           Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
         artifacts: "/opt/openwrt/tmp/*.xz"
         
