@@ -109,6 +109,9 @@ jobs:
         wget  https://github.com/hibuddies/openwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
         
+        # curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
+        # curl -L -b cookies.txt -o $flippy_filename11  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11'&confirm='$(<confirm.txt)
+        
         curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt        
         curl -L -b cookies.txt -o $flippy_filename12  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12'&confirm='$(<confirm.txt)
         
@@ -117,8 +120,7 @@ jobs:
         
         curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
         curl -L -b cookies.txt -o $flippy_filename22  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22'&confirm='$(<confirm.txt)
-        
-      #  cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
+        #  cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
         cp /opt/dl/$flippy_filename12 /opt/imgs/$flippy_filename12
         cp /opt/dl/$flippy_filename21 /opt/imgs/$flippy_filename21
         cp /opt/dl/$flippy_filename22 /opt/imgs/$flippy_filename22
@@ -146,7 +148,7 @@ jobs:
               
     - name: build img
       run: |
-      #  sudo rm -rf /opt/openwrt/tmp/${release_name11}.xz   
+        #  sudo rm -rf /opt/openwrt/tmp/${release_name11}.xz   
         sudo rm -rf /opt/openwrt/tmp/${release_name12}.xz
         sudo rm -rf /opt/openwrt/tmp/${release_name13}.xz
         
@@ -155,7 +157,7 @@ jobs:
         sudo rm -rf /opt/openwrt/tmp/${release_name23}.xz
         
         cd /opt/imgs        
-      #  sudo xz -d $flippy_filename11
+        #  sudo xz -d $flippy_filename11
         sudo xz -d $flippy_filename12
         sudo xz -d $flippy_filename21
         sudo xz -d $flippy_filename22
@@ -165,7 +167,7 @@ jobs:
         
         chmod +x *.sh
         
-      #  sudo bash mk_beikeyun_opimg_sfe.sh
+        #  sudo bash mk_beikeyun_opimg_sfe.sh
         sudo bash mk_s905x3_opimg_sfe.sh
         sudo bash mk_n1_opimg_sfe.sh
         sudo bash mk_beikeyun_opimg.sh
@@ -177,7 +179,7 @@ jobs:
       run: |
         sudo chmod  -R 777 /opt/openwrt/tmp
         cd /opt/openwrt/tmp 
-      #  sudo xz -z $release_name11
+        #  sudo xz -z $release_name11
         sudo xz -z $release_name12
         sudo xz -z $release_name13
         
