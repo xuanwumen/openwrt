@@ -84,7 +84,6 @@ jobs:
       #if: steps.opwenwrtcache.outputs.cache-hit != 'true'
       run: |
         cd /opt/dl
-        df -hT
         sudo rm -rf Armbian_*
         sudo rm -rf openwrt-armvirt-64-*
         wget  https://github.com/hibuddies/openwrt/releases/download/ARMv8-sfe/openwrt-armvirt-64-default-rootfs.tar.gz
@@ -161,9 +160,9 @@ jobs:
         sudo xz -z $OPENWRT_N1_O
         echo "::set-output name=status::success"
 
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
+   # - name: Check space usage
+    #  if: (!cancelled())
+     # run: df -hT
 
     - name: Create release
       if: steps.xz.outputs.status == 'success'  &&  env.RELEASE == 'true' && !cancelled()
