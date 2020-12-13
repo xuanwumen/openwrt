@@ -18,3 +18,5 @@ src-git small https://github.com/kenzok8/small
 src-git jerryk https://github.com/jerrykuku/openwrt-package
 #passwal新
 src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall
+#openclash
+src-git vernesong https://github.com/vernesong/OpenClash
