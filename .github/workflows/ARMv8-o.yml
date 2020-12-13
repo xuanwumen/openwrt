@@ -80,13 +80,13 @@ jobs:
       
     - name: add cpufreq for aarch64
       run: |
-      cd openwrt
-      sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=@TARGET_armvirt_64/g' package/lean/luci-app-cpufreq/Makefile
+        cd openwrt
+        sed -i 's/LUCI_DEPENDS.*/LUCI_DEPENDS:=@TARGET_armvirt_64/g' package/lean/luci-app-cpufreq/Makefile
 
     - name: cat cpufreq file
       run: |
-      cd openwrt
-      cat package/lean/luci-app-cpufreq/Makefile
+        cd openwrt
+        cat package/lean/luci-app-cpufreq/Makefile
 
     - name: Load custom configuration
       run: |
