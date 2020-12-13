@@ -30,7 +30,7 @@ jobs:
       matrix:
         include:
           - flippy_name: 50
-       #     armbian_beikeyun_+: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
+       #     armbian_beikeyun_s: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
             armbian_beikeyun_o: Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
             armbian_s9xxx_s: Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
             armbian_s9xxx_o: Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
@@ -42,16 +42,16 @@ jobs:
             openwrt_n1_o: N1_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
     env:
       FLIPPY_NAME: ${{ matrix.flippy_name }}
-     # ARMBIAN_BEIKEYUN_+: ${{ matrix.armbian_beikeyun_+ }}   
-      ARMBIAN_BEIKEYUN_+O: ${{ matrix.armbian_beikeyun_o }}
-      ARMBIAN_S9XXX_+: ${{ matrix.armbian_s9xxx_s }}
-      ARMBIAN_S9XXX_+O: ${{ matrix.armbian_s9xxx_o }}
-     # OPENWRT_BEIKEYUN_+: ${{ matrix.openwrt_beikeyun_+ }}
-      OPENWRT_BEIKEYUN_+O: ${{ matrix.openwrt_beikeyun_o }}
-      OPENWRT_S905x3_+: ${{ matrix.openwrt_s905x3_s }}
-      OPENWRT_S905x3_+O: ${{ matrix.openwrt_s905x3_o }}
-      OPENWRT_N1_+: ${{ matrix.openwrt_n1_s }}
-      OPENWRT_N1_+O: ${{ matrix.openwrt_n1_o }}
+     # ARMBIAN_BEIKEYUN_S: ${{ matrix.armbian_beikeyun_s }}   
+      ARMBIAN_BEIKEYUN_O: ${{ matrix.armbian_beikeyun_o }}
+      ARMBIAN_S9XXX_S: ${{ matrix.armbian_s9xxx_s }}
+      ARMBIAN_S9XXX_O: ${{ matrix.armbian_s9xxx_o }}
+     # OPENWRT_BEIKEYUN_S: ${{ matrix.openwrt_beikeyun_+ }}
+      OPENWRT_BEIKEYUN_O: ${{ matrix.openwrt_beikeyun_o }}
+      OPENWRT_S905x3_S: ${{ matrix.openwrt_s905x3_s }}
+      OPENWRT_S905x3_O: ${{ matrix.openwrt_s905x3_o }}
+      OPENWRT_N1_S: ${{ matrix.openwrt_n1_s }}
+      OPENWRT_N1_O: ${{ matrix.openwrt_n1_o }}
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -94,10 +94,10 @@ jobs:
         wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
         wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
         wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
-        #  cp /opt/dl/$ARMBIAN_BEIKEYUN_+ /opt/imgs/$ARMBIAN_BEIKEYUN_+
-        cp /opt/dl/$ARMBIAN_BEIKEYUN_+O /opt/imgs/$ARMBIAN_BEIKEYUN_+O
-        cp /opt/dl/$ARMBIAN_S9XXX_+ /opt/imgs/$ARMBIAN_S9XXX_+
-        cp /opt/dl/$ARMBIAN_S9XXX_+O /opt/imgs/$ARMBIAN_S9XXX_+O
+        #  cp /opt/dl/$ARMBIAN_BEIKEYUN_S /opt/imgs/$ARMBIAN_BEIKEYUN_S
+        cp /opt/dl/$ARMBIAN_BEIKEYUN_O /opt/imgs/$ARMBIAN_BEIKEYUN_O
+        cp /opt/dl/$ARMBIAN_S9XXX_S /opt/imgs/$ARMBIAN_S9XXX_S
+        cp /opt/dl/$ARMBIAN_S9XXX_O /opt/imgs/$ARMBIAN_S9XXX_O
 
         
     - name: Check Files
@@ -116,17 +116,17 @@ jobs:
               
     - name: build img
       run: |
-        #  sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_+}.xz   
-        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_+}.xz
-        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_+}.xz
-        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_+O}.xz   
-        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_+O}.xz
-        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_+O}.xz
+        #  sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_S}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_S}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_S}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_O}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_O}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_O}.xz
         cd /opt/imgs        
-        #  sudo xz -d $ARMBIAN_BEIKEYUN_+
-        sudo xz -d $ARMBIAN_S9XXX_+
-        sudo xz -d $ARMBIAN_BEIKEYUN_+O
-        sudo xz -d $ARMBIAN_S9XXX_+O
+        #  sudo xz -d $ARMBIAN_BEIKEYUN_S
+        sudo xz -d $ARMBIAN_S9XXX_S
+        sudo xz -d $ARMBIAN_BEIKEYUN_O
+        sudo xz -d $ARMBIAN_S9XXX_O
         sudo chmod  -R 777 /opt
         cd /opt/openwrt
         chmod +x *.sh
@@ -142,12 +142,12 @@ jobs:
       run: |
         sudo chmod  -R 777 /opt/openwrt/tmp
         cd /opt/openwrt/tmp 
-        #  sudo xz -z $OPENWRT_BEIKEYUN_+
-        sudo xz -z $OPENWRT_S905x3_+
-        sudo xz -z $OPENWRT_N1_+
-        sudo xz -z $OPENWRT_BEIKEYUN_+O
-        sudo xz -z $OPENWRT_S905x3_+O
-        sudo xz -z $OPENWRT_N1_+O
+        #  sudo xz -z $OPENWRT_BEIKEYUN_S
+        sudo xz -z $OPENWRT_S905x3_S
+        sudo xz -z $OPENWRT_N1_S
+        sudo xz -z $OPENWRT_BEIKEYUN_O
+        sudo xz -z $OPENWRT_S905x3_O
+        sudo xz -z $OPENWRT_N1_O
         echo "::set-output name=status::success"
 
     - name: Check space usage
@@ -172,12 +172,12 @@ jobs:
       if: steps.xz.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_+.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_+.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_+.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_+O.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_+O.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_+O.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_S.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_S.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_S.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_O.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_O.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_O.xz 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
         echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
 
