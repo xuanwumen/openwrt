@@ -31,27 +31,27 @@ jobs:
         include:
           - flippy_name: 50
        #     armbian_beikeyun_+: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
-            armbian_beikeyun_+o: Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
-            armbian_s9xxx_+: Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
-            armbian_s9xxx_+o: Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
+            armbian_beikeyun_o: Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
+            armbian_s9xxx_s: Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
+            armbian_s9xxx_o: Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
        #     openwrt_beikeyun_+: Beikeyun_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
-            openwrt_beikeyun_+o: Beikeyun_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
-            openwrt_s905x3_+: S905x3_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
-            openwrt_s905x3_+o: S905x3_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
-            openwrt_n1_+: N1_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
-            openwrt_n1_+o: N1_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+            openwrt_beikeyun_o: Beikeyun_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+            openwrt_s905x3_s: S905x3_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
+            openwrt_s905x3_o: S905x3_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+            openwrt_n1_s: N1_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
+            openwrt_n1_o: N1_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
     env:
       FLIPPY_NAME: ${{ matrix.flippy_name }}
      # ARMBIAN_BEIKEYUN_+: ${{ matrix.armbian_beikeyun_+ }}   
-      ARMBIAN_BEIKEYUN_+O: ${{ matrix.armbian_beikeyun_+o }}
-      ARMBIAN_S9XXX_+: ${{ matrix.armbian_s9xxx_+ }}
-      ARMBIAN_S9XXX_+O: ${{ matrix.armbian_s9xxx_+o }}
+      ARMBIAN_BEIKEYUN_+O: ${{ matrix.armbian_beikeyun_o }}
+      ARMBIAN_S9XXX_+: ${{ matrix.armbian_s9xxx_s }}
+      ARMBIAN_S9XXX_+O: ${{ matrix.armbian_s9xxx_o }}
      # OPENWRT_BEIKEYUN_+: ${{ matrix.openwrt_beikeyun_+ }}
-      OPENWRT_BEIKEYUN_+O: ${{ matrix.openwrt_beikeyun_+o }}
-      OPENWRT_S905x3_+: ${{ matrix.openwrt_s905x3_+ }}
-      OPENWRT_S905x3_+O: ${{ matrix.openwrt_s905x3_+o }}
-      OPENWRT_N1_+: ${{ matrix.openwrt_n1_+ }}
-      OPENWRT_N1_+O: ${{ matrix.openwrt_n1_+o }}
+      OPENWRT_BEIKEYUN_+O: ${{ matrix.openwrt_beikeyun_o }}
+      OPENWRT_S905x3_+: ${{ matrix.openwrt_s905x3_s }}
+      OPENWRT_S905x3_+O: ${{ matrix.openwrt_s905x3_o }}
+      OPENWRT_N1_+: ${{ matrix.openwrt_n1_s }}
+      OPENWRT_N1_+O: ${{ matrix.openwrt_n1_o }}
     steps:
     - name: Checkout
       uses: actions/checkout@main
