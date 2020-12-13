@@ -30,32 +30,28 @@ jobs:
       matrix:
         include:
           - flippy_name: 50
-       # 注：1x为+版，2x为+o版
-       #     flippy_filename11: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
-       #     release_name11: Beikeyun_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
-            flippy_filename12: Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
-            release_name12: S905x3_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
-            release_name13: N1_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
-
-            flippy_filename21: Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
-            flippy_filename22: Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
-            release_name21: Beikeyun_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
-            release_name22: S905x3_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
-            release_name23: N1_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+       #     armbian_beikeyun_+: Armbian_20.10_Beikeyun_buster_5.9.8-flippy-49+.img.xz
+            armbian_beikeyun_+o: Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
+            armbian_s9xxx_+: Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
+            armbian_s9xxx_+o: Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
+       #     openwrt_beikeyun_+: Beikeyun_Openwrt_R20.12.12_k5.9.8-flippy-49+.img
+            openwrt_beikeyun_+o: Beikeyun_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+            openwrt_s905x3_+: S905x3_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
+            openwrt_s905x3_+o: S905x3_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
+            openwrt_n1_+: N1_Openwrt_R20.12.12_k5.9.14-flippy-50+.img
+            openwrt_n1_+o: N1_Openwrt_R20.12.12_k5.4.83-flippy-50+o.img
     env:
       FLIPPY_NAME: ${{ matrix.flippy_name }}
-
-     # flippy_filename11: ${{ matrix.flippy_filename11 }}   
-      flippy_filename12: ${{ matrix.flippy_filename12 }} 
-     # release_name11: ${{ matrix.release_name11 }}
-      release_name12: ${{ matrix.release_name12 }}
-      release_name13: ${{ matrix.release_name13 }}
-
-      flippy_filename21: ${{ matrix.flippy_filename21 }}   
-      flippy_filename22: ${{ matrix.flippy_filename22 }} 
-      release_name21: ${{ matrix.release_name21 }}
-      release_name22: ${{ matrix.release_name22 }}
-      release_name23: ${{ matrix.release_name23 }}
+     # ARMBIAN_BEIKEYUN_+: ${{ matrix.armbian_beikeyun_+ }}   
+      ARMBIAN_BEIKEYUN_+O: ${{ matrix.armbian_beikeyun_+o }}
+      ARMBIAN_S9XXX_+: ${{ matrix.armbian_s9xxx_+ }}
+      ARMBIAN_S9XXX_+O: ${{ matrix.armbian_s9xxx_+o }}
+     # OPENWRT_BEIKEYUN_+: ${{ matrix.openwrt_beikeyun_+ }}
+      OPENWRT_BEIKEYUN_+O: ${{ matrix.openwrt_beikeyun_+o }}
+      OPENWRT_S905x3_+: ${{ matrix.openwrt_s905x3_+ }}
+      OPENWRT_S905x3_+O: ${{ matrix.openwrt_s905x3_+o }}
+      OPENWRT_N1_+: ${{ matrix.openwrt_n1_+ }}
+      OPENWRT_N1_+O: ${{ matrix.openwrt_n1_+o }}
     steps:
     - name: Checkout
       uses: actions/checkout@main
@@ -65,29 +61,15 @@ jobs:
         if [[ $FLIPPY_NAME = "50" ]]; 
         then
           echo "set the flippy 50"
-         # echo "FLIPPY_FILEID11=${{ secrets.beikeyun_sfe_FILEID }}"  >> $GITHUB_ENV
-          echo "FLIPPY_FILEID12=${{ secrets.s9xxx_sfe_FILEID }}"  >> $GITHUB_ENV
-          
-          echo "FLIPPY_FILEID21=${{ secrets.beikeyun_o_FILEID }}"  >> $GITHUB_ENV
-          echo "FLIPPY_FILEID22=${{ secrets.s9xxx_o_FILEID }}"  >> $GITHUB_ENV
         fi
-        version11=$(curl -s "https://api.github.com/repos/hibuddies/openwrt/releases/34735968" | awk -F '"' '/tag_name/{print $4}')
-        echo "version11=$version11"  >> $GITHUB_ENV
-        
-        version21=$(curl -s "https://api.github.com/repos/hibuddies/openwrt/releases/34735979" | awk -F '"' '/tag_name/{print $4}')
-        echo "version21=$version21"  >> $GITHUB_ENV
-        
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install time
         sudo timedatectl set-timezone "$TZ"
         echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")"  >> $GITHUB_ENV
-        
         sudo chmod  -R 777 /opt
         cp -r ${FLIPPY_NAME}/opt/* /opt
-        
         test -d /opt/dl || mkdir -p /opt/dl
         sudo chmod  -R 777 /opt/dl
-        
         cd /opt
         mkdir imgs
         
@@ -96,43 +78,32 @@ jobs:
       with:
         path: |
           /opt/dl
-        key: ${{ runner.os }}-opwenwrt-${{ env.FLIPPY_NAME }}-${{ env.version11 }}-${{ env.version21 }}
+        key: ${{ runner.os }}-opwenwrt-${{ env.FLIPPY_NAME }}
       
     - name: Download and Copy files
       #if: steps.opwenwrtcache.outputs.cache-hit != 'true'
       run: |
         cd /opt/dl
+        sudo rm -rf Armbian_*
         sudo rm -rf /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz
-        
-        wget  https://github.com/hibuddies/openwrt/releases/download/$version11/openwrt-armvirt-64-default-rootfs.tar.gz
+        wget  https://github.com/hibuddies/openwrt/releases/download/ARMv8-sfe/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
-        
         sudo rm -rf /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz
-        
-        wget  https://github.com/hibuddies/openwrt/releases/download/$version21/openwrt-armvirt-64-default-rootfs.tar.gz
+        wget  https://github.com/hibuddies/openwrt/releases/download/ARMv8-flowoffload/openwrt-armvirt-64-default-rootfs.tar.gz
         cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/openwrt-armvirt-64-default-rootfs.tar.gz
-        
-        # curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-        # curl -L -b cookies.txt -o $flippy_filename11  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID11'&confirm='$(<confirm.txt)
-        
-        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt        
-        curl -L -b cookies.txt -o $flippy_filename12  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID12'&confirm='$(<confirm.txt)
-        
-        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID21  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt        
-        curl -L -b cookies.txt -o $flippy_filename21  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID21'&confirm='$(<confirm.txt)
-        
-        curl -L -c cookies.txt 'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22  |  sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' > confirm.txt
-        curl -L -b cookies.txt -o $flippy_filename22  'https://docs.google.com/uc?export=download&id='$FLIPPY_FILEID22'&confirm='$(<confirm.txt)
-        #  cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
-        cp /opt/dl/$flippy_filename12 /opt/imgs/$flippy_filename12
-        cp /opt/dl/$flippy_filename21 /opt/imgs/$flippy_filename21
-        cp /opt/dl/$flippy_filename22 /opt/imgs/$flippy_filename22
+        wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Beikeyun_buster_5.4.83-flippy-50+o.img.xz
+        wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Aml-s9xxx_buster_5.9.14-flippy-50+.img.xz
+        wget https://github.com/hibuddies/openwrt/releases/download/Armbian/Armbian_20.10_Aml-s9xxx_buster_5.4.83-flippy-50+o.img.xz
+        #  cp /opt/dl/$ARMBIAN_BEIKEYUN_+ /opt/imgs/$ARMBIAN_BEIKEYUN_+
+        cp /opt/dl/$ARMBIAN_BEIKEYUN_+O /opt/imgs/$ARMBIAN_BEIKEYUN_+O
+        cp /opt/dl/$ARMBIAN_S9XXX_+ /opt/imgs/$ARMBIAN_S9XXX_+
+        cp /opt/dl/$ARMBIAN_S9XXX_+O /opt/imgs/$ARMBIAN_S9XXX_+O
 
         
-  #  - name: Check Files
-  #    run: |
-  #      cd /opt/dl
-  #      ls
+    - name: Check Files
+      run: |
+        cd /opt/dl
+        ls
                 
     - name: Install the package
       run: |
@@ -142,34 +113,23 @@ jobs:
         sudo -E apt-get -qq install git  git-core
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
-
-  #  - name: Copy files
-  #    run: |
-  #      cp /opt/dl/openwrt-armvirt-64-default-rootfs.tar.gz /opt/openwrt/sfe-openwrt-armvirt-64-default-rootfs.tar.gz
-  #      cp /opt/dl/$flippy_filename11 /opt/imgs/$flippy_filename11
-  #      cp /opt/dl/$flippy_filename12 /opt/imgs/$flippy_filename12
               
     - name: build img
       run: |
-        #  sudo rm -rf /opt/openwrt/tmp/${release_name11}.xz   
-        sudo rm -rf /opt/openwrt/tmp/${release_name12}.xz
-        sudo rm -rf /opt/openwrt/tmp/${release_name13}.xz
-        
-        sudo rm -rf /opt/openwrt/tmp/${release_name21}.xz   
-        sudo rm -rf /opt/openwrt/tmp/${release_name22}.xz
-        sudo rm -rf /opt/openwrt/tmp/${release_name23}.xz
-        
+        #  sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_+}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_+}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_+}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_BEIKEYUN_+O}.xz   
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_S905x3_+O}.xz
+        sudo rm -rf /opt/openwrt/tmp/${OPENWRT_N1_+O}.xz
         cd /opt/imgs        
-        #  sudo xz -d $flippy_filename11
-        sudo xz -d $flippy_filename12
-        sudo xz -d $flippy_filename21
-        sudo xz -d $flippy_filename22
-        
+        #  sudo xz -d $ARMBIAN_BEIKEYUN_+
+        sudo xz -d $ARMBIAN_S9XXX_+
+        sudo xz -d $ARMBIAN_BEIKEYUN_+O
+        sudo xz -d $ARMBIAN_S9XXX_+O
         sudo chmod  -R 777 /opt
         cd /opt/openwrt
-        
         chmod +x *.sh
-        
         #  sudo bash mk_beikeyun_opimg_sfe.sh
         sudo bash mk_s905x3_opimg_sfe.sh
         sudo bash mk_n1_opimg_sfe.sh
@@ -182,14 +142,12 @@ jobs:
       run: |
         sudo chmod  -R 777 /opt/openwrt/tmp
         cd /opt/openwrt/tmp 
-        #  sudo xz -z $release_name11
-        sudo xz -z $release_name12
-        sudo xz -z $release_name13
-        
-        sudo xz -z $release_name21
-        sudo xz -z $release_name22
-        sudo xz -z $release_name23
-        
+        #  sudo xz -z $OPENWRT_BEIKEYUN_+
+        sudo xz -z $OPENWRT_S905x3_+
+        sudo xz -z $OPENWRT_N1_+
+        sudo xz -z $OPENWRT_BEIKEYUN_+O
+        sudo xz -z $OPENWRT_S905x3_+O
+        sudo xz -z $OPENWRT_N1_+O
         echo "::set-output name=status::success"
 
     - name: Check space usage
@@ -214,12 +172,12 @@ jobs:
       if: steps.xz.outputs.status == 'success' && env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -fsSL git.io/file-transfer | sh
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name11.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name12.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name13.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name21.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name22.xz 2>&1 | tee cowtransfer.log
-        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$release_name23.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_+.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_+.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_+.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_BEIKEYUN_+O.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_S905x3_+O.xz 2>&1 | tee cowtransfer.log
+        ./transfer cow --block 2621440 -s -p 64 --no-progress /opt/openwrt/tmp/$OPENWRT_N1_+O.xz 2>&1 | tee cowtransfer.log
         echo "::warning file=cowtransfer.com::$(cat cowtransfer.log | grep https)"
         echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
 
