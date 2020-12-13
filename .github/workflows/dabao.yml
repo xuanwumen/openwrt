@@ -101,13 +101,21 @@ jobs:
         cp /opt/dl/$ARMBIAN_S9XXX_O /opt/imgs/$ARMBIAN_S9XXX_O
 
         
-    - name: Check Files
+    - name: Check Files1
       run: |
         cd /opt/dl
         ls
+        
+    - name: Check Files2
+      run: |
+        cd /opt/openwrt/
+        ls
+
+    - name: Check Files3
+      run: |
         cd /opt/imgs/
         ls
-                
+      
     - name: Install the package
       run: |
         sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
