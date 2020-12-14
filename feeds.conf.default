@@ -20,3 +20,5 @@ src-git jerryk https://github.com/jerrykuku/openwrt-package
 src-git xiaorouji https://github.com/xiaorouji/openwrt-passwall
 #openclash
 src-git vernesong https://github.com/vernesong/OpenClash
+#dockerman
+src-git lisaac https://github.com/lisaac/luci-app-dockerman
