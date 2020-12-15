@@ -1,4 +1,4 @@
-name: ARMv8-gdq-sfe
+name: ARMv8-mini-s
 
 on:
   repository_dispatch:
@@ -15,7 +15,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: ARMv8/gdq-sfe.config
+  CONFIG_FILE: ARMv8/mini-sfe.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
@@ -24,8 +24,8 @@ env:
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  FILE_NAME: ARMv8-gdq-sfe
-  PRODUCT_NAME: ARMv8-gdq-sfe
+  FILE_NAME: ARMv8-mini-sfe
+  PRODUCT_NAME: ARMv8-mini-sfe
 
 jobs:
   build:

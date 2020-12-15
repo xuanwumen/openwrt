@@ -1,4 +1,4 @@
-name: gdq-dabao
+name: ARMv8-gdq-dabao
 
 on:
   repository_dispatch:

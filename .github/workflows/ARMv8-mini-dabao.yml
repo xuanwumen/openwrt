@@ -1,4 +1,4 @@
-name: mini-dabao
+name: ARMv8-mini-dabao
 
 on:
   repository_dispatch:
