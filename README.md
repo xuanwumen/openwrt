@@ -7,7 +7,7 @@
 - releases中的固件分为[***精简版***](https://github.com/hibuddies/openwrt/releases/tag/ARMv8-mini-%E5%B7%B2%E6%89%93%E5%8C%85%E5%9B%BA%E4%BB%B6)和[***高大全版***](https://github.com/hibuddies/openwrt/releases/tag/ARMv8-gdq-%E5%B7%B2%E6%89%93%E5%8C%85%E5%9B%BA%E4%BB%B6)，精简版主要适合科学上网为主要需求的用户，高大全版用的是f大的配置文件，+o版是flowoffload加速,+版是sfe加速！
 - 固件默认IP：`192.168.1.1` 默认密码： `password`
 - 精简版固件包含的插件预览：
-  (https://github.com/hibuddies/openwrt/blob/main/ARMv8/%E7%B2%BE%E7%AE%80%E7%89%88%E5%9B%BA%E4%BB%B6.jpg)
+  ![image](https://github.com/hibuddies/openwrt/blob/main/ARMv8/%E7%B2%BE%E7%AE%80%E7%89%88%E5%9B%BA%E4%BB%B6.jpg)
 
 ## 感谢
 
