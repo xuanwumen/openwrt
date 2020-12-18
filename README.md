@@ -8,7 +8,7 @@
 - 固件默认IP：`192.168.1.1` 默认密码： `password`
 - 精简版固件包含的插件预览：
 
-  ![image](https://github.com/hibuddies/openwrt/blob/main/ARMv8/%E7%B2%BE%E7%AE%80%E7%89%88%E5%9B%BA%E4%BB%B6.jpg)
+  ![image](https://github.com/hibuddies/openwrt/blob/main/image/%E7%B2%BE%E7%AE%80%E7%89%88%E5%9B%BA%E4%BB%B6.jpg)
 
 ## 感谢
 
