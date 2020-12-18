@@ -158,6 +158,7 @@ jobs:
         sudo xz -z $OPENWRT_BEIKEYUN_O
         sudo xz -z $OPENWRT_S905x3_O
         sudo xz -z $OPENWRT_N1_O
+        wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-gdq-sfe/AllPackages.tar.gz
         echo "::set-output name=status::success"
 
    # - name: Check space usage
