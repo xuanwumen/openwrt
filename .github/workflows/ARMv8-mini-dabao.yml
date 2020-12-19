@@ -19,7 +19,7 @@ env:
   UPLOAD_COWTRANSFER: false
   RELEASE: true
   TZ: Asia/Shanghai
-  FILE_NAME: ARMv8-mini-已打包固件
+  FILE_NAME: ARMv8-mini
 
 jobs:
   build:
@@ -160,6 +160,8 @@ jobs:
         sudo xz -z $OPENWRT_N1_O
         sudo rm -rf btld-rk3328.bin
         wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-mini-sfe/AllPackages.tar.gz
+        wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-mini-sfe/mini-sfe.config
+        wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-mini-flowoffload/mini-flowoffload.config
         echo "::set-output name=status::success"
 
    # - name: Check space usage
