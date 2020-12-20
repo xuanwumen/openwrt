@@ -166,8 +166,6 @@ jobs:
         sudo xz -z $OPENWRT_N1_O
         sudo rm -rf btld-rk3328.bin
         wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-gdq-sfe/AllPackages.tar.gz
-        wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-gdq-sfe/gdq-sfe.config
-        wget https://github.com/hibuddies/openwrt-arm/releases/download/ARMv8-gdq-flowoffload/gdq-flowoffload.config
         echo "::set-output name=status::success"
 
    # - name: Check space usage
