@@ -19,7 +19,7 @@ env:
   UPLOAD_COWTRANSFER: false
   RELEASE: true
   TZ: Asia/Shanghai
-  FILE_NAME: ARMv8-mini
+  FILE_NAME: Z-ARMv8-mini
 
 jobs:
   build:
@@ -65,6 +65,8 @@ jobs:
           echo "beikeyun_o=${{ secrets.beikeyun_o }}"  >> $GITHUB_ENV
           echo "s9xx_sfe=${{ secrets.s9xxx_sfe }}"  >> $GITHUB_ENV
           echo "s9xxx_o=${{ secrets.s9xxx_o }}"  >> $GITHUB_ENV
+          echo "dibao_sfe=${{ secrets.dibao_mini_sfe }}"  >> $GITHUB_ENV
+          echo "dibao_o=${{ secrets.dibao_mini_o }}"  >> $GITHUB_ENV
         fi
         sudo -E apt-get -qq update
         sudo -E apt-get -qq install time
