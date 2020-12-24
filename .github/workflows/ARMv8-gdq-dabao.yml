@@ -130,12 +130,9 @@ jobs:
     - name: copy update files
       run: |
         cd /opt/openwrt
-        sudo cp files/update-beikeyun-openwrt.sh update-beikeyun-openwrt.sh
-        sudo mv update-beikeyun-openwrt.sh tmp/update-beikeyun-openwrt.sh
-        sudo cp files/update-to-emmc.sh update-to-emmc.sh
-        sudo mv update-to-emmc.sh tmp/update-to-emmc.sh
-        sudo cp files/update-s905x3-openwrt.sh update-s905x3-openwrt.sh
-        sudo mv update-s905x3-openwrt.sh tmp/update-s905x3-openwrt.sh
+        sudo cp files/update-beikeyun-openwrt.sh tmp
+        sudo cp files/update-to-emmc.sh tmp
+        sudo cp files/update-s905x3-openwrt.sh tmp
 
     - name: Check Files3
       run: |
