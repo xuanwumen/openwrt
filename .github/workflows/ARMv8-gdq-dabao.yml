@@ -127,12 +127,15 @@ jobs:
         sudo ./mk_n1_opimg.sh
         echo "::set-output name=status::success"
 
-    - name: cp update files
+    - name: copy update files
       run: |
-        cd /opt/openwrt/files
-        sudo cp update-beikeyun-openwrt.sh /opt/openwrt/tmp
-        sudo cp update-to-emmc.sh /opt/openwrt/tmp
-        sudo cp update-s905x3-openwrt.sh /opt/openwrt/tmp
+        cd /opt/openwrt
+        sudo cp files/update-beikeyun-openwrt.sh update-beikeyun-openwrt.sh
+        sudo mv update-beikeyun-openwrt.sh tmp/update-beikeyun-openwrt.sh
+        sudo cp files/update-to-emmc.sh update-to-emmc.sh
+        sudo mv update-to-emmc.sh tmp/update-to-emmc.sh
+        sudo cp files/update-s905x3-openwrt.sh update-s905x3-openwrt.sh
+        sudo mv update-s905x3-openwrt.sh tmp/update-s905x3-openwrt.sh
 
     - name: Check Files3
       run: |
