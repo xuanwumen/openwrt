@@ -127,8 +127,8 @@ jobs:
         sudo ./mk_n1_opimg.sh
         echo "::set-output name=status::success"
 
-    -name: cp update files
-     run: |
+    - name: cp update files
+      run: |
         cd /opt/openwrt/files
         sudo cp update-beikeyun-openwrt.sh /opt/openwrt/tmp
         sudo cp update-to-emmc.sh /opt/openwrt/tmp
