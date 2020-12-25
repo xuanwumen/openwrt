@@ -170,6 +170,11 @@ jobs:
           Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
         artifacts: ${{ env.FIRMWARE }}/*
 
+
+    - name: WeChat notification
+      if: steps.xz.outputs.status == 'success' && !cancelled()
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=${{ env.FILE_NAME }}编译完成
+
 #    - name: WeChat notification
 #      if: steps.organize.outputs.status == 'success' && !cancelled()
 #      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=${{ env.PRODUCT_NAME }}打包完成
