@@ -8,8 +8,8 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
-  schedule:
-    - cron: 0 16 * * *
+ # schedule:
+  #  - cron: 0 16 * * *
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -144,3 +144,7 @@ jobs:
         docker tag hibuddies/openwrt-aarch64 hibuddies/openwrt-aarch64-mini:${{ env.DATE_YMD }}
         docker push hibuddies/openwrt-aarch64-mini
         echo "::set-output name=status::success"
+
+    - name: WeChat notification
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=${{ env.FILE_NAME }}编译完成
