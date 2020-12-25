@@ -131,6 +131,11 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    -name: Check files
+      run: |
+        cd openwrt/bin/targets/*/*/*
+        ls
+
     - name: Build and push docker image
       id: docker
       if: steps.organize.outputs.status == 'success' && !cancelled()
