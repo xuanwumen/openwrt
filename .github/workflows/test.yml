@@ -131,7 +131,7 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
-    -name: Check files
+    - name: Check files
       run: |
         cd openwrt/bin/targets/*/*/*
         ls
