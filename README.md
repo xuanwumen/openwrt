@@ -7,7 +7,7 @@
 - releases中的直刷固件分为[***精简版***](https://github.com/hibuddies/openwrt/releases/tag/Z-ARMv8-mini)和[***高大全版***](https://github.com/hibuddies/openwrt/releases/tag/Z-ARMv8-gdq)，精简版主要适合科学上网为主要需求的用户，高大全版用的是f大的配置文件，+o版是flowoffload加速,+版是sfe加速！
 - Docker固件：`docker pull hibuddies/openwrt-aarch64:latest`
 - 固件默认IP：`192.168.1.1` 默认密码：`password`
-- 刷机和升级方法请参考f大这两个帖子：[➦1](https://www.right.com.cn/forum/thread-981406-1-1.html)[➦2](https://www.right.com.cn/forum/thread-4055451-1-1.html)
+- 刷机和升级方法请参考f大这两个帖子：[➦1](https://www.right.com.cn/forum/thread-981406-1-1.html)和[➦2](https://www.right.com.cn/forum/thread-4055451-1-1.html)
 - 精简版固件包含的插件预览：
 
   ![image](https://github.com/hibuddies/openwrt/blob/main/image/%E7%B2%BE%E7%AE%80%E7%89%88%E5%9B%BA%E4%BB%B6.jpg)
