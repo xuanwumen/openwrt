@@ -132,12 +132,12 @@ jobs:
     - name: copy update files
       run: |
         cd /opt/openwrt
-        sudo cp files/update-beikeyun-openwrt.sh tmp
-        sudo cp files/update-l1pro-openwrt.sh tmp
-        sudo cp files/update-to-emmc.sh tmp
-        sudo cp files/s905x3/update-s905x3-openwrt.sh tmp
-        sudo cp files/s922x/update-s922x-openwrt.sh tmp
-        sudo cp files/update-vplus-openwrt.sh tmp
+        sudo cp files/update-beikeyun-openwrt.sh tmp/z-update-beikeyun-openwrt.sh
+        sudo cp files/update-l1pro-openwrt.sh tmp/z-update-l1pro-openwrt.sh
+        sudo cp files/update-to-emmc.sh tmp/z-update-to-emmc.sh
+        sudo cp files/s905x3/update-s905x3-openwrt.sh tmp/z-update-s905x3-openwrt.sh
+        sudo cp files/s922x/update-s922x-openwrt.sh tmp/z-update-s922x-openwrt.sh
+        sudo cp files/update-vplus-openwrt.sh tmp/z-update-vplus-openwrt.sh
 
     - name: Check Files3
       run: |
@@ -173,15 +173,11 @@ jobs:
         body: |
           默认IP：192.168.1.1 默认密码： password
           Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
+          下面的sh脚本是固件升级使用
         artifacts: ${{ env.FIRMWARE }}/*
 
-
-    - name: WeChat notification
-      if: steps.xz.outputs.status == 'success' && !cancelled()
-      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=${{ env.FILE_NAME }}打包完成
-
 #    - name: WeChat notification
-#      if: steps.organize.outputs.status == 'success' && !cancelled()
+#      if: steps.xz.outputs.status == 'success' && !cancelled()
 #      run: curl https://sc.ftqq.com/${{ secrets.ServerChan }}.send?text=${{ env.PRODUCT_NAME }}打包完成
 
 #     - name: Upload package
