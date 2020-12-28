@@ -1,4 +1,4 @@
-name: ARMv8_Docker
+name: ARMv8-Docker
 
 on:
   repository_dispatch:
@@ -25,8 +25,8 @@ env:
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
-  FILE_NAME: ARMv8_Docker
-  PRODUCT_NAME: ARMv8_Docker
+  FILE_NAME: ARMv8-Docker
+  PRODUCT_NAME: ARMv8-Docker
 
 jobs:
   build:
