@@ -1,4 +1,4 @@
-name: ARMv8-Docker
+name: ARMv8_Docker
 
 on:
   repository_dispatch:
