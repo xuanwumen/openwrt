@@ -1,4 +1,4 @@
-name: ARMv8_Docker-mini
+name: ARMv8-Docker_mini
 
 on:
   repository_dispatch:
