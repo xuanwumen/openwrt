@@ -141,9 +141,9 @@ jobs:
         ./$DOCKER_BUILD_SH
         gzip -dc dockerimgs/docker/*.gz | docker load
         docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-        docker tag hibuddies/openwrt-aarch64 hibuddies/openwrt-aarch64-mini
-        docker tag hibuddies/openwrt-aarch64-mini hibuddies/openwrt-aarch64-mini:${{ env.DATE_YMD }}
-        docker push hibuddies/openwrt-aarch64-mini
+        docker tag hibuddies/openwrt-aarch64 hibuddies/openwrt-aarch64-micro
+        docker tag hibuddies/openwrt-aarch64-micro hibuddies/openwrt-aarch64-micro:${{ env.DATE_YMD }}
+        docker push hibuddies/openwrt-aarch64-micro
         echo "::set-output name=status::success"
 
     - name: Telegram notification
