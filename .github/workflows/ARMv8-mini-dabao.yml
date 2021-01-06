@@ -151,7 +151,7 @@ jobs:
         sudo chmod  -R 777 /opt/openwrt/tmp
         cd /opt/openwrt/tmp
         sudo rm -rf *.xz
-        sudo rm N1_*\+o*
+        sudo rm N1_*\+.*
         sudo xz -z *.img
         sudo rm btld-rk3328.bin
         wget https://github.com/hibuddies/openwrt/releases/download/ARMv8-mini-sfe/AllPackages.tar.gz
