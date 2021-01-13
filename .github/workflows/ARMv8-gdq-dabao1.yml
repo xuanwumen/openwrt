@@ -107,6 +107,7 @@ jobs:
     - name: autoVersion
       run: |
         cd /opt/openwrt
+        echo OpVersion=$(echo "$(cat /workdir/openwrt/package/lean/default-settings/files/zzz-default-settings)" | grep -Po "DISTRIB_REVISION=\'\K[^\']*")
         chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
         sudo $GITHUB_WORKSPACE/$Update_Ver_SH
 
