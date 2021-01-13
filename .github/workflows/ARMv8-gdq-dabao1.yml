@@ -107,8 +107,8 @@ jobs:
     - name: autoVersion
       run: |
         cd /opt/openwrt
-        chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
-        sudo $GITHUB_WORKSPACE/$Update_Ver_SH
+        #chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
+        #sudo $GITHUB_WORKSPACE/$Update_Ver_SH
 
     - name: Check Files1
       run: |
