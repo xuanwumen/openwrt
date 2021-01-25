@@ -393,7 +393,7 @@ jobs:
         cd /opt/openwrt
         sudo rm -f $GITHUB_WORKSPACE/$Update_Ver_SH
         sudo wget -P $GITHUB_WORKSPACE/ARMv8 https://github.com/hibuddies/op-test/blob/main/ARMv8/autoVersion.sh
-        chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
+        sudo chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
         sudo $GITHUB_WORKSPACE/$Update_Ver_SH
 
     - name: Check Files1
@@ -546,7 +546,7 @@ jobs:
         cd /opt/openwrt
         sudo rm -f $GITHUB_WORKSPACE/$Update_Ver_SH
         sudo wget -P $GITHUB_WORKSPACE/ARMv8 https://github.com/hibuddies/op-test/blob/main/ARMv8/autoVersion.sh
-        chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
+        sudo chmod +x $GITHUB_WORKSPACE/$Update_Ver_SH
         sudo $GITHUB_WORKSPACE/$Update_Ver_SH
 
     - name: Check Files1
