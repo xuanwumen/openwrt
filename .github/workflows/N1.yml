@@ -627,7 +627,7 @@ jobs:
 
 
   over:
-    needs: [gdq, mini, gdq50, mini50]
+    needs: [gdq, mini]
     runs-on: ubuntu-18.04
     steps:
     #- name: WeChat notification #微信推送
