@@ -173,7 +173,7 @@ jobs:
         body: |
           ## 鉴于N1用户群庞大，特单独开此release
           默认IP：192.168.1.1 默认密码： password
-          Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
+          Openwrt🚀(注:gdq是高大全版和f大固件集成软件相差无几，mini是精简版。+o版为flowoffload加速,+版为sfe加速)
         artifacts: ${{ env.FIRMWARE }}/*
 
 
@@ -315,7 +315,7 @@ jobs:
         body: |
           ## 鉴于N1用户群庞大，特单独开此release
           默认IP：192.168.1.1 默认密码： password
-          Openwrt🚀(注:+o版为flowoffload加速,+版为sfe加速)
+          Openwrt🚀(注:gdq是高大全版和f大固件集成软件相差无几，mini是精简版。+o版为flowoffload加速,+版为sfe加速)
         artifacts: ${{ env.FIRMWARE }}/*
 
 
