@@ -100,7 +100,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/docker/
         sudo rm -rf openwrt-armvirt-64-*
-        sudo wget $dibao_sfe
+        sudo wget $dibao_o
         chmod +x $DOCKER_BUILD_SH
         ./$DOCKER_BUILD_SH
         gzip -dc dockerimgs/docker/*.gz | docker load
