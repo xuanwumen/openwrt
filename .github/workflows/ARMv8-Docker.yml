@@ -86,6 +86,7 @@ jobs:
         sed -i "s/DISTRIB_REVISION=.*/DISTRIB_REVISION=\'$OpVersion1\ $OpVersion2\'\"\ \>>\ \/\etc\/\openwrt_release/" package/lean/default-settings/files/zzz-default-settings
         echo "$(cat package/lean/default-settings/files/zzz-default-settings)" | grep -Po "DISTRIB_REVISION=\'\K[^\']*"
         #sed -i "/CPU usage/a\                \<tr><td\ \width=\"33%\"\> 使用帮助\ <\/td><td>点击直达F大帖子：<a href=\"https://www.right.com.cn/forum/thread-4055451-1-1.html\">\ ➦新帖 \</a> 和 <a href=\"https://www.right.com.cn/forum/thread-981406-1-1.html\">\ ➦旧帖 \</a></td></tr>" package/lean/autocore/files/arm/index.htm
+        echo "TAG=$OpVersion1" >> $GITHUB_ENV
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -105,7 +106,7 @@ jobs:
         ./$DOCKER_BUILD_SH
         gzip -dc dockerimgs/docker/*.gz | docker load
         docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-        docker tag hibuddies/openwrt-aarch64 hibuddies/openwrt-aarch64:$OpVersion1
+        docker tag hibuddies/openwrt-aarch64 hibuddies/openwrt-aarch64:${{ env.TAG }}
         docker push hibuddies/openwrt-aarch64
         echo "::set-output name=status::success"
 
