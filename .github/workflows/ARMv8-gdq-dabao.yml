@@ -146,7 +146,6 @@ jobs:
         sudo cp files/update-amlogic-openwrt.sh tmp/z-update-amlogic-openwrt.sh
         sudo cp files/update-beikeyun-openwrt.sh tmp/z-update-beikeyun-openwrt.sh
         sudo cp files/update-l1pro-openwrt.sh tmp/z-update-l1pro-openwrt.sh
-        sudo cp files/update-to-emmc.sh tmp/z-update-to-emmc.sh
         sudo cp files/update-vplus-openwrt.sh tmp/z-update-vplus-openwrt.sh
 
     - name: Check Files3
