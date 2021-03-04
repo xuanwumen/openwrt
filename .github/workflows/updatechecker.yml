@@ -84,7 +84,7 @@ jobs:
       if: steps.cacheHash.outputs.cache-hit != 'true'
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.RELEASES_TOKEN }}
+        token: ${{ secrets.Tiger }}
         event-type: ssrplus Source Code Update
 
 #    - name: Source Code Update notification
@@ -127,7 +127,7 @@ jobs:
       if: steps.cacheHash.outputs.cache-hit != 'true'
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.RELEASES_TOKEN }}
+        token: ${{ secrets.Tiger }}
         event-type: passwall Source Code Update
 
 #    - name: Source Code Update notification
