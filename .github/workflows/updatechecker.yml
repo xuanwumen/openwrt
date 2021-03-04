@@ -170,7 +170,7 @@ jobs:
       if: steps.cacheHash.outputs.cache-hit != 'true'
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.RELEASES_TOKEN }}
+        token: ${{ secrets.Tiger }}
         event-type: vssr Source Code Update
 
 #    - name: Source Code Update notification
